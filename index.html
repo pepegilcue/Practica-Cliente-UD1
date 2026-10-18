@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestor de participantes del evento</title>
+  <link rel="stylesheet" href="css/estilos.css">
+  <script src="js/logica.js" defer></script>
+  <script src="js/cookies.js" defer></script>
+  <script src="js/interfaz.js" defer></script>
+</head>
+<body>
+  <header class="cabecera">
+    <div>
+      <h1>Gestor de participantes del evento</h1>
+      <p>Práctica Cliente · DWEC · UD1</p>
+    </div>
+    <nav class="acciones-cabecera" aria-label="Acciones de la aplicación">
+      <button id="btn-abrir-ayuda" type="button">Abrir ayuda</button>
+      <button id="btn-cerrar-ayuda" type="button">Cerrar ayuda</button>
+    </nav>
+    <p id="estado-ayuda" class="mensaje" role="status"></p>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h2>Alta de participantes</h2>
+      <p>Los campos se validan en JavaScript. Si hay errores, se conservan los valores introducidos.</p>
+      <form id="formulario-participante" novalidate>
+        <div class="rejilla-formulario">
+          <div class="campo">
+            <label for="nombre">Nombre completo</label>
+            <input id="nombre" name="nombre" type="text" autocomplete="name">
+            <div class="acciones-texto" aria-label="Herramientas para el nombre">
+              <button type="button" id="btn-mayusculas">MAYÚSCULAS</button>
+              <button type="button" id="btn-minusculas">minúsculas</button>
+              <button type="button" id="btn-quitar-espacios">Quitar espacios</button>
+            </div>
+            <p class="error" id="error-nombre"></p>
+          </div>
+          <div class="campo">
+            <label for="edad">Edad</label>
+            <input id="edad" name="edad" type="number" step="1">
+            <p class="error" id="error-edad"></p>
+          </div>
+          <div class="campo">
+            <label for="tipo">Tipo de participante</label>
+            <select id="tipo" name="tipo">
+              <option value="">Selecciona un tipo</option>
+              <option value="Estudiante">Estudiante</option>
+              <option value="Profesional">Profesional</option>
+              <option value="Ponente">Ponente</option>
+            </select>
+            <p class="error" id="error-tipo"></p>
+          </div>
+          <div class="campo">
+            <label for="modalidad">Modalidad</label>
+            <select id="modalidad" name="modalidad">
+              <option value="">Selecciona una modalidad</option>
+              <option value="Presencial">Presencial</option>
+              <option value="Online">Online</option>
+            </select>
+            <p class="error" id="error-modalidad"></p>
+          </div>
+          <div class="campo">
+            <label for="experiencia">Años de experiencia</label>
+            <input id="experiencia" name="experiencia" type="number" min="0" max="10" step="any">
+            <p class="error" id="error-experiencia"></p>
+          </div>
+        </div>
+        <div class="fila-botones">
+          <button type="submit" class="principal">Añadir participante</button>
+          <button type="reset" id="btn-limpiar">Limpiar formulario</button>
+        </div>
+        <p id="mensaje-alta" class="mensaje" role="status"></p>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>Participantes inscritos</h2>
+      <div class="rejilla-filtros">
+        <div class="campo">
+          <label for="buscar-nombre">Buscar por nombre</label>
+          <input id="buscar-nombre" type="search" placeholder="Escribe un nombre">
+        </div>
+        <div class="campo">
+          <label for="filtrar-modalidad">Filtrar por modalidad</label>
+          <select id="filtrar-modalidad">
+            <option value="todas">Todas las modalidades</option>
+            <option value="Presencial">Presencial</option>
+            <option value="Online">Online</option>
+          </select>
+        </div>
+      </div>
+      <p id="mensaje-listado" class="mensaje" role="status"></p>
+      <div id="lista-participantes" class="rejilla-tarjetas"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Estadísticas de la colección completa</h2>
+      <p>Las estadísticas se calculan con todos los participantes, aunque el listado esté filtrado.</p>
+      <div id="estadisticas" class="rejilla-estadisticas"></div>
+      <div class="bloque-menor">
+        <h3>Primer menor de edad de la colección</h3>
+        <p id="primer-menor">Sin datos</p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Importar y exportar JSON</h2>
+      <p>Exporta la colección al cuadro de texto. Puedes copiar el contenido para guardarlo. Para importar, pega o escribe un array JSON válido.</p>
+      <label for="texto-json">Contenido JSON</label>
+      <textarea id="texto-json" rows="9" spellcheck="false" placeholder='[ { "id": 1, "nombre": "Ana", ... } ]'></textarea>
+      <div class="fila-botones">
+        <button type="button" id="btn-exportar">Exportar colección a JSON</button>
+        <button type="button" id="btn-importar" class="principal">Validar e importar JSON</button>
+      </div>
+      <p id="mensaje-json" class="mensaje" role="status"></p>
+    </section>
+
+    <section class="panel">
+      <h2>Preferencias de presentación</h2>
+      <p>Las preferencias se guardan en dos cookies independientes durante 30 días.</p>
+      <div class="rejilla-formulario">
+        <div class="campo">
+          <label for="preferencia-tema">Tema</label>
+          <select id="preferencia-tema">
+            <option value="claro">Claro</option>
+            <option value="oscuro">Oscuro</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label for="preferencia-tamano">Tamaño de letra</label>
+          <select id="preferencia-tamano">
+            <option value="normal">Normal</option>
+            <option value="grande">Grande</option>
+          </select>
+        </div>
+      </div>
+      <div class="fila-botones">
+        <button type="button" id="btn-guardar-preferencias" class="principal">Guardar preferencias</button>
+        <button type="button" id="btn-restablecer-preferencias">Restablecer preferencias</button>
+      </div>
+      <p id="mensaje-preferencias" class="mensaje" role="status"></p>
+    </section>
+
+    <section class="panel">
+      <h2>Panel de resumen incrustado</h2>
+      <p>Este panel está en un iframe y recibe el resumen mediante postMessage.</p>
+      <iframe id="iframe-panel" title="Panel con resumen de inscripciones"></iframe>
+      <p id="estado-panel" class="mensaje" role="status">Preparando el panel…</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>La colección de participantes se mantiene en memoria durante esta sesión. Las preferencias se guardan en cookies.</p>
+  </footer>
+</body>
+</html>
