@@ -4,6 +4,7 @@
 **Asignatura:** Desarrollo Web en Entorno Cliente  
 **Curso:** 2ª DAW 2026/2027  
 **Autor:** Pepe Gil Cué
+**Enlace IA:** https://claude.ai/share/43dc08b8-f6ff-4adb-8aa1-3d5a41f5a738
 
 ## 1. Descripción
 
